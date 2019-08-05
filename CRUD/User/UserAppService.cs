@@ -56,5 +56,17 @@ namespace STCOA.CRUD.User
             }
         }
 
+
+        public List<SysUserinfo> getUserList()
+        {
+            var List = dbcontext.SysUserinfo.ToList();
+            List<SysUserinfo> userList = new List<SysUserinfo>();
+            foreach(var s in List)
+            {
+                userList.Add(new SysUserinfo { Id = s.Id, UserName=s.UserName });
+            }
+            return userList;
+        }
+
     }
 }

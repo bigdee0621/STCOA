@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using STCOA.CRUD.User;
 using STCOA.EnityModel;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,7 +20,7 @@ namespace STCOA.Controllers.api
         [HttpPost]
         public bool Post(UserMail value)
         {
-           return  obj.AddData(value);
+            return obj.AddData(value);
 
         }
 
@@ -37,6 +38,21 @@ namespace STCOA.Controllers.api
             return obj.GetVocation(UserId);
 
         }
+
+    }
+    [Route("api/UserList")]
+    public class getUserList : Controller
+    {
+        UserAppService obj = new UserAppService();
+
+        // POST api/<controller>
+        [HttpPost]
+        public List<SysUserinfo> getData()
+        {
+            return obj.getUserList();
+
+        }
+
 
     }
 }

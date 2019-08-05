@@ -7,6 +7,7 @@ using STCOA.EnityModel;
 using STCOA.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using STCOA.Controllers.api;
 
 namespace STCOA.Controllers
 {
@@ -31,5 +32,16 @@ namespace STCOA.Controllers
         {
             return con.GetVocation(UserId);
         }
+
+        public IActionResult Leave()
+        {
+            var sss = ByteConvertHelper.Bytes2Object<UserModel>(HttpContext.Session.Get("User"));
+            ViewBag.UserId = sss.Id;
+            ViewBag.UserName = sss.UserName;
+            var userList = new getUserList().getData() ;
+            ViewBag.userList = userList;
+            return View();
+        }
+      
     }
 }

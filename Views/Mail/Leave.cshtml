@@ -1,8 +1,11 @@
 ﻿
 @{
+    ViewData["Title"] = "外勤申请";
+
     Layout = "~/Views/Shared/_Layout.cshtml";
     //  Layout = null;
 }
+
 
 
 @*<select>
@@ -24,91 +27,131 @@
     <form action="" class="am-form" data-am-validator>
         <fieldset>
             <legend>
-                请假申请
-                <p class="register-info">你好，<b>@ViewBag.UserName</b></p>
-                <p class="register-info">  你当前的【年假】还剩余:<strong style="color:red" id="Vocation">null</strong>天</p>
+                外勤申请
+                @*<p class="register-info">你好，<b>@ViewBag.UserName</b></p>
+            <p class="register-info">  你当前的【年假】还剩余:<strong style="color:red" id="Vocation">null</strong>天</p>*@
             </legend>
- 
-                    <div class="am-form-group">
-                        <div class="am-g">
-                            <div class="am-u-md-2 am-padding-0 am-text-right">
-                                <label for="doc-vld-name-2" class="register-name">请假类型</label>
-                            </div>
-                            <div class="am-u-md-10">
-                                <select id="sonType">
-                                    @{
+            <div class="am-form-group">
 
-                                        foreach (var x in ViewBag.typeList)
-                                        {
-                                            @if (@x.Type == 1)
-                                            {
-                                                <option value="@x.Name">@x.Name</option>}
-                                        }
-                                    }
-                                </select>
-                            </div>
+                <label for="doc-vld-name-2" class="register-name" id="UserName">
+                    外勤人员：
+                </label>
+
+                @ViewBag.UserName
+
+                <span class="text-right" style="color:darkviolet"> <i class="am-icon-plus" id="addUser"> </i></span>
+            </div>
+            <div class="am-form-group">
+
+                <label for="doc-vld-name-2 am-u-md-8" style="float:left" id="UserName">
+                    <span> 选择添加的成员:</span>
+
+                </label>
+                <button id="AddMoreTextBox">add</button>
+                <span class="am-u-md-4 text-right" id="InputsWrapper">
+                 
+                </span>
+                <i class="am-icon-check am-text-success"></i>
+                &nbsp; &nbsp; <i class="am-icon-close am-text-danger"></i>
+            </div>
+
+            <script>
+                $(document).ready(function () {
+                    var InputCount = 3;
+                    $("#AddMoreTextBox").click(function (e) {
+                        InputCount++;
+                        $("#InputsWrapper").append(' <select>             @{
+
+                            foreach (var x in ViewBag.userList)
+                            {
+
+                                                <option value="@x.Id">@x.UserName</option>}
+                            }
+                                    }</select >');
+                    });
+                });
+            </script>
+
+            <input type="hidden" value=" @ViewBag.UserName;" />
+
+            <div class="am-form-group">
+                <div class="am-g">
+                    <div class="am-u-md-2 am-padding-0 am-text-right">
+                        <label for="doc-vld-name-2" class="register-name">外勤地点</label>
+                    </div>
+                    <div class="am-u-md-10">
+                        <div class="outer">
+                            <select name="province" id="province">
+                                <option value="请选择">请选择</option>
+                            </select>
+                            <select name="city" id="city">
+                                <option value="请选择">请选择</option>
+                            </select>
+                            <input type="text" name="destination" placeholder="输入目的地，如：中山大学" />
                         </div>
                     </div>
+                </div>
+            </div>
 
 
-                    <div class="am-form-group">
-                        <div class="am-g">
-                            <div class="am-u-md-12 am-padding-0 am-text-left ">
-                                <label for="doc-vld-name-2" class="register-name">请假日期</label>
-                            </div>
-
-                            <div class="am-alert am-alert-danger" id="my-alert" style="display: none">
-                                <p>开始日期应小于结束日期！</p>
-                            </div>
-
-                            <div class="am-u-sm-8">
-                                <button type="button" class="am-btn am-btn-default am-margin-right" id="my-start">开始日期</button><span id="my-startDate">@DateTime.Now.ToString("yyyy-MM-dd")</span>
-                            </div>
-
-                            <div class="am-u-sm-4">
-                                <select id="startDayhalf">
-                                    <option value="s0">全天</option>
-                                    <option value="s1">上午</option>
-                                    <option value="s2">下午</option>
-                                </select>
-                            </div>
-                            <div class="am-u-sm-12">&nbsp;</div>
-                            <div class="am-u-sm-8">
-                                <button type="button" class="am-btn am-btn-default am-margin-right" id="my-end">结束日期</button><span id="my-endDate">@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")</span>
-                            </div>
-                            <div class="am-u-sm-4">
-                                <select id="endDayhalf">
-                                    <option value="e0">全天</option>
-                                    <option value="e1">上午</option>
-                                    <option value="e2">下午</option>
-                                </select>
-                            </div>
-                            <div class="am-u-md-12 am-padding-0 am-text-center">
-                                <label for="doc-vld-name-2" class="register-name text-center">共<span id="countDay" style="color:red"></span>天</label>
-                            </div>
-                        </div>
+            <div class="am-form-group">
+                <div class="am-g">
+                    <div class="am-u-md-12 am-padding-0 am-text-left ">
+                        <label for="doc-vld-name-2" class="register-name">外勤日期</label>
                     </div>
 
-
-
-                    <div class="am-form-group">
-                        <div class="am-g">
-                            <div class="am-u-md-2 am-padding-0 am-text-right">
-                                <label for="doc-vld-name-2" class="register-name">请假原因</label>
-                            </div>
-                            <div class="am-u-md-10">
-                                <input type="text" id="Reason" minlength="3"
-                                       placeholder="输入请假原因" required />
-                            </div>
-                        </div>
+                    <div class="am-alert am-alert-danger" id="my-alert" style="display: none">
+                        <p>开始日期应小于结束日期！</p>
                     </div>
 
-
-                    <div class="am-g">
-                        <div class="am-u-md-10">
-                            <button class="am-btn am-btn-secondary" type="button" onclick="SubmitData()">请假</button>
-                        </div>
+                    <div class="am-u-sm-8">
+                        <button type="button" class="am-btn am-btn-default am-margin-right" id="my-start">开始日期</button><span id="my-startDate">@DateTime.Now.ToString("yyyy-MM-dd")</span>
                     </div>
+
+                    <div class="am-u-sm-4">
+                        <select id="startDayhalf">
+                            <option value="s0">全天</option>
+                            <option value="s1">上午</option>
+                            <option value="s2">下午</option>
+                        </select>
+                    </div>
+                    <div class="am-u-sm-12">&nbsp;</div>
+                    <div class="am-u-sm-8">
+                        <button type="button" class="am-btn am-btn-default am-margin-right" id="my-end">结束日期</button><span id="my-endDate">@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")</span>
+                    </div>
+                    <div class="am-u-sm-4">
+                        <select id="endDayhalf">
+                            <option value="e0">全天</option>
+                            <option value="e1">上午</option>
+                            <option value="e2">下午</option>
+                        </select>
+                    </div>
+                    <div class="am-u-md-12 am-padding-0 am-text-center">
+                        <label for="doc-vld-name-2" class="register-name text-center">共<span id="countDay" style="color:red"></span>天</label>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="am-form-group">
+                <div class="am-g">
+                    <div class="am-u-md-2 am-padding-0 am-text-right">
+                        <label for="doc-vld-name-2" class="register-name">外勤原因</label>
+                    </div>
+                    <div class="am-u-md-10">
+                        <input type="text" id="Reason" minlength="3"
+                               placeholder="输入请假原因" required />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="am-g">
+                <div class="am-u-md-10">
+                    <button class="am-btn am-btn-secondary" type="button" onclick="SubmitData()">外勤</button>
+                </div>
+            </div>
         </fieldset>
     </form>
 </div>
@@ -180,7 +223,7 @@
 
                 $("#Vocation").html(data);
 
-               
+
 
             },
             complete: function () {
@@ -197,7 +240,7 @@
 
     });  //end function
 
-    
+
     function SubmitData() {
 
         var s_halfDay = $("#startDayhalf").find("option:selected").text();
@@ -235,7 +278,7 @@
                 "StartDate":Sub_StartDay,
                 "EndDate": Sub_EndDay,
                 "SumDay": Sub_SumDay,
-              
+
             },    //参数值
             type: "POST",   //请求方式
             beforeSend: function () {
@@ -280,7 +323,7 @@
                     break;
             }
         } else {
-     
+
             switch (endDayhalf) {
                 case "e1":
                     day = day - 0.5;
@@ -300,7 +343,7 @@
         var y = InputDate.getFullYear();
         var m = (InputDate.getMonth() + 1).toString();
         var d = (InputDate.getDate()).toString();
-        
+
         if (m.length == 1)
             m = "0" + m;
         if (d.length == 1)
@@ -308,3 +351,10 @@
         return y + "-" + m + "-" + d;
     }
 </script>
+
+
+
+
+<script src="~/js/area.js" charset="utf-8"></script>
+<script src="~/js/select.js" charset="utf-8"></script>
+
